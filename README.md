@@ -1,4 +1,4 @@
-ginhouxnet.sysctl
+ginhouxnet.iptables
 =========
 
 This ansible role configure iptables
@@ -13,7 +13,7 @@ This ansible role will only run on identified OS defined on meta/main.yml
 Role Variables
 --------------
 
-
+Read defaults/main.yml
 
 
 Dependencies
