@@ -1,0 +1,428 @@
+---
+## https://docs.ansible.com/ansible/latest/collections/ansible/builtin/iptables_module.html
+
+iptables_configure_action: generate
+# iptables_configure_action: cleanup
+
+iptables_install_before_configure: true
+iptables_reset_before_configure: true
+iptables_reset_customs_chains_before_configure: true
+iptables_save_conf: true
+iptables_create_global_loopback_traffic_rules: true
+iptables_create_global_logged_dropped_traffic_rules: true
+iptables_create_global_related_established_traffic_rules: true
+iptables_set_chains_policies: true
+
+
+iptables_save_conf_remove_pattern: true
+iptables_save_conf_remove_pattern_list: 
+  - ":DOCKER-INGRESS"
+  - ":DOCKER-ISOLATION-STAGE-1"
+  - ":DOCKER-ISOLATION-STAGE-2"
+  - ":DOCKER-USER"
+  - ":DOCKER"
+  - "-j DOCKER-INGRESS"
+  - "-j DOCKER-ISOLATION-STAGE-1"
+  - "-j DOCKER-ISOLATION-STAGE-2"
+  - "-j DOCKER-USER"
+  - "-j DOCKER"
+  - "-A DOCKER-INGRESS"
+  - "-A DOCKER-ISOLATION-STAGE-1"
+  - "-A DOCKER-ISOLATION-STAGE-2"
+  - "-A DOCKER-USER"
+  - "-A DOCKER"
+  - "docker_gwbridge"
+  - "docker0"
+
+
+iptables_logged_dropped_traffic_rules:
+  - chain: INPUT
+    table: filter
+    state: present
+    log_level: info
+    log_prefix: "iptables ipv4 filter input drop: "
+    ip_version: ipv4
+  - chain: INPUT
+    table: filter
+    state: present
+    log_level: info
+    log_prefix: "iptables ipv6 filter input drop: "
+    ip_version: ipv6
+  - chain: OUTPUT
+    table: filter
+    state: present
+    log_level: info
+    log_prefix: "iptables ipv4 filter output drop: "
+    ip_version: ipv4
+  - chain: OUTPUT
+    table: filter
+    state: present
+    log_level: info
+    log_prefix: "iptables ipv6 filter output drop: "
+    ip_version: ipv6
+  - chain: FORWARD
+    table: filter
+    state: present
+    log_level: info
+    log_prefix: "iptables ipv4 filter forward drop: "
+    ip_version: ipv4
+  - chain: FORWARD
+    table: filter
+    state: present
+    log_level: info
+    log_prefix: "iptables ipv6 filter forward drop: "
+    ip_version: ipv6
+
+
+iptables_customs_chains:
+  - chain: CUSTOM_CHAIN_IPV4
+    table: filter
+    state: present
+    ip_version: ipv4
+  - chain: CUSTOM_CHAIN_IPV6
+    table: filter
+    state: present
+    ip_version: ipv6
+
+
+iptables_rules_loopback_traffic:
+  - chain: INPUT
+    table: filter
+    state: present
+    jump: ACCEPT
+    in_interface: lo
+    ip_version: ipv4
+  - chain: INPUT
+    table: filter
+    state: present
+    jump: ACCEPT
+    in_interface: lo
+    ip_version: ipv6
+  - chain: OUTPUT
+    table: filter
+    state: present
+    jump: ACCEPT
+    out_interface: lo
+    ip_version: ipv4
+  - chain: OUTPUT
+    table: filter
+    state: present
+    jump: ACCEPT
+    out_interface: lo
+    ip_version: ipv6
+  - chain: FORWARD
+    table: filter
+    state: present
+    jump: ACCEPT
+    ip_version: ipv4
+  - chain: FORWARD
+    table: filter
+    state: present
+    jump: ACCEPT
+    ip_version: ipv6
+
+
+iptables_rules_related_established_traffic:
+  - chain: INPUT
+    table: filter
+    state: present
+    jump: ACCEPT
+    ip_version: ipv4
+  - chain: INPUT
+    table: filter
+    state: present
+    jump: ACCEPT
+    ip_version: ipv6
+  - chain: OUTPUT
+    table: filter
+    state: present
+    jump: ACCEPT
+    ip_version: ipv4
+  - chain: OUTPUT
+    table: filter
+    state: present
+    jump: ACCEPT
+    ip_version: ipv6
+  - chain: FORWARD
+    table: filter
+    state: present
+    jump: ACCEPT
+    ip_version: ipv4
+  - chain: FORWARD
+    table: filter
+    state: present
+    jump: ACCEPT
+    ip_version: ipv6
+
+
+iptables_rules_traffic:
+  - chain: INPUT
+    table: filter
+    state: present
+    comment: allow_icmp_ping
+    ip_version: ipv4
+    protocol: icmp
+    icmp_type: 8
+    jump: ACCEPT
+
+  - chain: INPUT
+    table: filter
+    state: present
+    comment: allow_ssh
+    ip_version: ipv4
+    protocol: tcp
+    destination_port: 22
+    ctstate: NEW
+    jump: ACCEPT
+
+
+iptables_chains_policy:
+  # table filter
+  - chain: INPUT
+    table: filter
+    state: present
+    policy: DROP
+    ip_version: ipv4
+  - chain: INPUT
+    table: filter
+    state: present
+    policy: DROP
+    ip_version: ipv6
+  - chain: OUTPUT
+    table: filter
+    state: present
+    policy: DROP
+    ip_version: ipv4
+  - chain: OUTPUT
+    table: filter
+    state: present
+    policy: DROP
+    ip_version: ipv6
+  - chain: FORWARD
+    table: filter
+    state: present
+    policy: DROP
+    ip_version: ipv4
+  - chain: FORWARD
+    table: filter
+    state: present
+    policy: DROP
+    ip_version: ipv6
+  # table nat
+  # - chain: PREROUTING
+  #   table: nat
+  #   state: present
+  #   policy: DROP
+  #   ip_version: ipv4
+  # - chain: PREROUTING
+  #   table: nat
+  #   state: present
+  #   policy: DROP
+  #   ip_version: ipv6
+  # - chain: INPUT
+  #   table: nat
+  #   state: present
+  #   policy: DROP
+  #   ip_version: ipv4
+  # - chain: INPUT
+  #   table: nat
+  #   state: present
+  #   policy: DROP
+  #   ip_version: ipv6
+  # - chain: OUTPUT
+  #   table: nat
+  #   state: present
+  #   policy: DROP
+  #   ip_version: ipv4
+  # - chain: OUTPUT
+  #   table: nat
+  #   state: present
+  #   policy: DROP
+  #   ip_version: ipv6
+  # - chain: POSTROUTING
+  #   table: nat
+  #   state: present
+  #   policy: DROP
+  #   ip_version: ipv4
+  # - chain: POSTROUTING
+  #   table: nat
+  #   state: present
+  #   policy: DROP
+  #   ip_version: ipv6
+  # # table mangle
+  # - chain: PREROUTING
+  #   table: mangle
+  #   state: present
+  #   policy: DROP
+  #   ip_version: ipv4
+  # - chain: PREROUTING
+  #   table: mangle
+  #   state: present
+  #   policy: DROP
+  #   ip_version: ipv6
+  # - chain: INPUT
+  #   table: mangle
+  #   state: present
+  #   policy: DROP
+  #   ip_version: ipv4
+  # - chain: INPUT
+  #   table: mangle
+  #   state: present
+  #   policy: DROP
+  #   ip_version: ipv6
+  # - chain: FORWARD
+  #   table: mangle
+  #   state: present
+  #   policy: DROP
+  #   ip_version: ipv4
+  # - chain: FORWARD
+  #   table: mangle
+  #   state: present
+  #   policy: DROP
+  #   ip_version: ipv6
+  # - chain: OUTPUT
+  #   table: mangle
+  #   state: present
+  #   policy: DROP
+  #   ip_version: ipv4
+  # - chain: OUTPUT
+  #   table: mangle
+  #   state: present
+  #   policy: DROP
+  #   ip_version: ipv6
+  # - chain: POSTROUTING
+  #   table: mangle
+  #   state: present
+  #   policy: DROP
+  #   ip_version: ipv4
+  # - chain: POSTROUTING
+  #   table: mangle
+  #   state: present
+  #   policy: DROP
+  #   ip_version: ipv6
+
+
+iptables_chains_policy_default:
+  # table filter
+  - chain: INPUT
+    table: filter
+    state: present
+    policy: ACCEPT
+    ip_version: ipv4
+  - chain: INPUT
+    table: filter
+    state: present
+    policy: ACCEPT
+    ip_version: ipv6
+  - chain: OUTPUT
+    table: filter
+    state: present
+    policy: ACCEPT
+    ip_version: ipv4
+  - chain: OUTPUT
+    table: filter
+    state: present
+    policy: ACCEPT
+    ip_version: ipv6
+  - chain: FORWARD
+    table: filter
+    state: present
+    policy: ACCEPT
+    ip_version: ipv4
+  - chain: FORWARD
+    table: filter
+    state: present
+    policy: ACCEPT
+    ip_version: ipv6
+  # table nat
+  - chain: PREROUTING
+    table: nat
+    state: present
+    policy: ACCEPT
+    ip_version: ipv4
+  - chain: PREROUTING
+    table: nat
+    state: present
+    policy: ACCEPT
+    ip_version: ipv6
+  - chain: INPUT
+    table: nat
+    state: present
+    policy: ACCEPT
+    ip_version: ipv4
+  - chain: INPUT
+    table: nat
+    state: present
+    policy: ACCEPT
+    ip_version: ipv6
+  - chain: OUTPUT
+    table: nat
+    state: present
+    policy: ACCEPT
+    ip_version: ipv4
+  - chain: OUTPUT
+    table: nat
+    state: present
+    policy: ACCEPT
+    ip_version: ipv6
+  - chain: POSTROUTING
+    table: nat
+    state: present
+    policy: ACCEPT
+    ip_version: ipv4
+  - chain: POSTROUTING
+    table: nat
+    state: present
+    policy: ACCEPT
+    ip_version: ipv6
+  # table mangle
+  - chain: PREROUTING
+    table: mangle
+    state: present
+    policy: ACCEPT
+    ip_version: ipv4
+  - chain: PREROUTING
+    table: mangle
+    state: present
+    policy: ACCEPT
+    ip_version: ipv6
+  - chain: INPUT
+    table: mangle
+    state: present
+    policy: ACCEPT
+    ip_version: ipv4
+  - chain: INPUT
+    table: mangle
+    state: present
+    policy: ACCEPT
+    ip_version: ipv6
+  - chain: FORWARD
+    table: mangle
+    state: present
+    policy: ACCEPT
+    ip_version: ipv4
+  - chain: FORWARD
+    table: mangle
+    state: present
+    policy: ACCEPT
+    ip_version: ipv6
+  - chain: OUTPUT
+    table: mangle
+    state: present
+    policy: ACCEPT
+    ip_version: ipv4
+  - chain: OUTPUT
+    table: mangle
+    state: present
+    policy: ACCEPT
+    ip_version: ipv6
+  - chain: POSTROUTING
+    table: mangle
+    state: present
+    policy: ACCEPT
+    ip_version: ipv4
+  - chain: POSTROUTING
+    table: mangle
+    state: present
+    policy: ACCEPT
+    ip_version: ipv6

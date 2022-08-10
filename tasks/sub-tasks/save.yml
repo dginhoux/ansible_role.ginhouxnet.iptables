@@ -1,0 +1,50 @@
+- name: save ipv4 persistent rules
+  shell: 
+    cmd: "{{ iptables_save_binary_ipv4 }} --file {{ iptables_conf_v4 }}"
+  when: iptables_save_conf | bool
+
+- name: save ipv6 persistent rules
+  shell:
+    cmd: "{{ iptables_save_binary_ipv6 }} --file {{ iptables_conf_v6 }}"
+  when: iptables_save_conf | bool
+
+
+- name: remove unwanted rules in ipv4 persistent rules file
+  lineinfile:
+    path: "{{ iptables_conf_v4 }}"
+    regexp: "{{ item }}" 
+    state: absent
+  with_items: "{{ iptables_save_conf_remove_pattern_list }}"
+  when: 
+    iptables_save_conf_remove_pattern | bool
+    and
+    iptables_save_conf_remove_pattern_list is defined
+    and
+    iptables_save_conf_remove_pattern_list is iterable
+
+
+- name: remove unwanted rules in ipv6 persistent rules file
+  lineinfile:
+    path: "{{ iptables_conf_v6 }}"
+    regexp: "{{ item }}" 
+    state: absent
+  with_items: "{{ iptables_save_conf_remove_pattern_list }}"
+  when: 
+    iptables_save_conf_remove_pattern | bool
+    and
+    iptables_save_conf_remove_pattern_list is defined
+    and
+    iptables_save_conf_remove_pattern_list is iterable
+
+
+# - name: remove unwanted rules in ipv6 persistent rules file
+#   lineinfile:
+#     path: "{{ iptables_conf_v6 }}"
+#     regexp: "{{ item }}" 
+#     state: absent
+#   with_items:
+#     - DOCKER-INGRESS
+#     - DOCKER-ISOLATION-STAGE-1
+#     - DOCKER-ISOLATION-STAGE-2
+#     - DOCKER-USER
+#     - DOCKER

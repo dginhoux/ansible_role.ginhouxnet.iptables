@@ -1,0 +1,50 @@
+---
+- name: reset chains policies
+  iptables:
+    chain: "{{ chains_policy.chain }}"
+    table: "{{ chains_policy.table }}"
+    state: "{{ chains_policy.state }}"
+    ip_version: "{{ chains_policy.ip_version }}"
+    policy: "{{ chains_policy.policy }}"
+  loop: "{{ iptables_chains_policy_default | flatten }}"
+  loop_control:
+    loop_var: chains_policy
+  when: iptables_chains_policy_default is iterable
+
+- name: reset chains rules
+  iptables:
+    chain: "{{ chains_policy.chain }}"
+    table: "{{ chains_policy.table }}"
+    state: "{{ chains_policy.state }}"
+    ip_version: "{{ chains_policy.ip_version }}"
+    flush: yes
+  loop: "{{ iptables_chains_policy_default | flatten }}"
+  loop_control:
+    loop_var: chains_policy
+  when: iptables_chains_policy_default is iterable
+
+- name: reset ipv4 customs chains
+  shell: "{{ iptables_binary_ipv4 }} -X"
+  when: iptables_reset_customs_chains_before_configure | bool
+
+- name: reset ipv6 customs chains
+  shell: "{{ iptables_binary_ipv6 }} -X"
+  when: iptables_reset_customs_chains_before_configure | bool
+
+- name: reset ipv4 persistent rules
+  copy:
+    content: ""
+    dest: "{{ iptables_conf_v4 }}"
+    owner: root
+    group: root
+    mode: '0644'
+  ignore_errors: true
+
+- name: reset ipv6 persistent rules
+  copy:
+    content: ""
+    dest: "{{ iptables_conf_v6 }}"
+    owner: root
+    group: root
+    mode: '0644'
+  ignore_errors: true

@@ -1,0 +1,13 @@
+---
+
+- iptables:
+    chain: "{{ logged_dropped.chain }}"
+    table: "{{ logged_dropped.table }}"
+    state: "{{ logged_dropped.state }}"
+    ip_version: "{{ logged_dropped.ip_version }}"
+    log_level: "{{ logged_dropped.log_level }}"
+    log_prefix: "{{ logged_dropped.log_prefix }}"
+    comment: log_traffic
+  loop: "{{ iptables_logged_dropped_traffic_rules | flatten }}"
+  loop_control:
+    loop_var: logged_dropped

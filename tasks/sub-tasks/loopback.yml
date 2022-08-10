@@ -1,0 +1,16 @@
+---
+
+- name: configure loopback interface traffic
+  iptables:
+    chain: "{{ rules_loopback.chain }}"
+    table: "{{ rules_loopback.table }}"
+    state: "{{ rules_loopback.state }}"
+    ip_version: "{{ rules_loopback.ip_version }}"
+    in_interface: "{{ rules_loopback.in_interface | default (omit) }}"
+    out_interface: "{{ rules_loopback.out_interface | default (omit) }}"
+    jump: "{{ rules_loopback.jump }}"
+    ctstate: NEW,ESTABLISHED,RELATED
+    comment: allow_loopback_traffic
+  loop: "{{ iptables_rules_loopback_traffic | flatten }}"
+  loop_control:
+    loop_var: rules_loopback

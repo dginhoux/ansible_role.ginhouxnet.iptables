@@ -1,0 +1,37 @@
+---
+- name: create ipv4 customs chains
+  shell: "iptables -t {{ item.table }} -N {{ item.chain }}"
+  loop: "{{ iptables_customs_chains | flatten }}"
+  # loop_control:
+  #   loop_var: customs_chains
+  when:
+    - item.state == "present"
+    - item.ip_version == "ipv4"
+
+- name: remove ipv4 customs chains
+  shell: "iptables -t {{ item.table }} -X {{ item.chain }}"
+  loop: "{{ iptables_customs_chains | flatten }}"
+  # loop_control:
+  #   loop_var: customs_chains
+  when:
+    - item.state == "absent"
+    - item.ip_version == "ipv4"
+
+
+- name: create ipv6 customs chains
+  shell: "ip6tables -t {{ item.table }} -N {{ item.chain }}"
+  loop: "{{ iptables_customs_chains | flatten }}"
+  # loop_control:
+  #   loop_var: customs_chains
+  when:
+    - item.state == "present"
+    - item.ip_version == "ipv6"
+
+- name: remove ipv6 customs chains
+  shell: "ip6tables -t {{ item.table }} -X {{ item.chain }}"
+  loop: "{{ iptables_customs_chains | flatten }}"
+  # loop_control:
+  #   loop_var: customs_chains
+  when:
+    - item.state == "absent"
+    - item.ip_version == "ipv6"

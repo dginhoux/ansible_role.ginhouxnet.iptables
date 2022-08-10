@@ -1,0 +1,46 @@
+---
+- name: install required packages
+  package:
+    state: present
+    name: '{{ pkg }}'
+  loop: "{{ iptables_packages | flatten }}"
+  loop_control:
+    loop_var: pkg
+
+- name: create empty default saved ipv4 rules file
+  file:
+    path: "{{ iptables_conf_v4 }}"
+    state: touch
+    mode: 600
+    owner: root
+    group: root
+
+- name: create empty default saved ipv6 rules file
+  file:
+    path: "{{ iptables_conf_v6 }}"
+    state: touch
+    mode: 600
+    owner: root
+    group: root
+
+- name: disable and stop un-required services
+  systemd:
+    state: stopped
+    enabled: no
+    name: '{{ service }}'
+    daemon_reload: yes
+  loop: "{{ iptables_services_off | flatten }}"
+  loop_control:
+    loop_var: service
+  ignore_errors: true
+
+- name: enable and start required services
+  systemd:
+    state: started
+    enabled: yes
+    name: '{{ service }}'
+    daemon_reload: yes
+  loop: "{{ iptables_services_on | flatten }}"
+  loop_control:
+    loop_var: service
+  ignore_errors: true
