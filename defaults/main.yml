@@ -40,37 +40,37 @@ iptables_logged_dropped_traffic_rules:
     table: filter
     state: present
     log_level: info
-    log_prefix: "iptables ipv4 filter input drop: "
+    log_prefix: "iptables_input_drop: "
     ip_version: ipv4
   - chain: INPUT
     table: filter
     state: present
     log_level: info
-    log_prefix: "iptables ipv6 filter input drop: "
+    log_prefix: "ip6tables_input_drop: "
     ip_version: ipv6
   - chain: OUTPUT
     table: filter
     state: present
     log_level: info
-    log_prefix: "iptables ipv4 filter output drop: "
+    log_prefix: "iptables_output_drop: "
     ip_version: ipv4
   - chain: OUTPUT
     table: filter
     state: present
     log_level: info
-    log_prefix: "iptables ipv6 filter output drop: "
+    log_prefix: "ip6tables_output_drop: "
     ip_version: ipv6
   - chain: FORWARD
     table: filter
     state: present
     log_level: info
-    log_prefix: "iptables ipv4 filter forward drop: "
+    log_prefix: "iptables_forward_drop: "
     ip_version: ipv4
   - chain: FORWARD
     table: filter
     state: present
     log_level: info
-    log_prefix: "iptables ipv6 filter forward drop: "
+    log_prefix: "ip6tables_forward_drop: "
     ip_version: ipv6
 
 
