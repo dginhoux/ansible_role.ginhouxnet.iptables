@@ -2,7 +2,7 @@
 
 
 galaxy_info:
-  role_name: ginhouxnet.iptables
+  role_name: iptables
   description: install and configure iptables
   author: dginhoux
   company: ginhouxnet
