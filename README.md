@@ -1,7 +1,8 @@
 ginhouxnet.iptables
 =========
 
-This ansible role configure iptables
+This ansible role configure iptables.
+It also save rules to ensure rules applied at machine startup.
 
 
 Requirements
@@ -20,6 +21,7 @@ Dependencies
 ------------
 
 none
+
 
 Example Playbook
 ----------------
