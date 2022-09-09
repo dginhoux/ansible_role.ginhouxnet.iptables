@@ -1,4 +1,4 @@
-ginhouxnet.iptables
+Ansible Role : dginhoux.iptables
 =========
 
 This ansible role configure iptables.
