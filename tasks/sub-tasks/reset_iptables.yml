@@ -17,7 +17,7 @@
     table: "{{ chains_policy.table }}"
     state: "{{ chains_policy.state }}"
     ip_version: "{{ chains_policy.ip_version }}"
-    flush: yes
+    flush: true
   loop: "{{ iptables_chains_policy_default | flatten }}"
   loop_control:
     loop_var: chains_policy
@@ -37,7 +37,7 @@
     dest: "{{ iptables_conf_v4 }}"
     owner: root
     group: root
-    mode: '0644'
+    mode: "0644"
   ignore_errors: true
 
 - name: reset ipv6 persistent rules
@@ -46,5 +46,5 @@
     dest: "{{ iptables_conf_v6 }}"
     owner: root
     group: root
-    mode: '0644'
+    mode: "0644"
   ignore_errors: true

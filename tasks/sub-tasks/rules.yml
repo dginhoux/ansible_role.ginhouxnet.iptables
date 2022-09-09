@@ -1,5 +1,4 @@
 ---
-
 - name: configure rules traffic
   iptables:
     chain: "{{ iptables_rules.chain }}"

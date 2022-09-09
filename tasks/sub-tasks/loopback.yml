@@ -1,5 +1,4 @@
 ---
-
 - name: configure loopback interface traffic
   iptables:
     chain: "{{ rules_loopback.chain }}"

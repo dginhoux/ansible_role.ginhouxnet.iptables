@@ -7,7 +7,6 @@ iptables_services_on:
   - netfilter-persistent
 
 iptables_services_off: []
-  # - firewalld
 
 iptables_conf_v4: /etc/iptables/rules.v4
 iptables_conf_v6: /etc/iptables/rules.v6

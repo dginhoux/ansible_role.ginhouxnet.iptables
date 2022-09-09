@@ -1,5 +1,4 @@
 ---
-
 - name: configure related and established connections
   iptables:
     chain: "{{ rules_related_established.chain }}"

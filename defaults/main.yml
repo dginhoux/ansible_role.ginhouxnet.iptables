@@ -13,9 +13,8 @@ iptables_create_global_logged_dropped_traffic_rules: true
 iptables_create_global_related_established_traffic_rules: true
 iptables_set_chains_policies: true
 
-
 iptables_save_conf_remove_pattern: true
-iptables_save_conf_remove_pattern_list: 
+iptables_save_conf_remove_pattern_list:
   - ":DOCKER-INGRESS"
   - ":DOCKER-ISOLATION-STAGE-1"
   - ":DOCKER-ISOLATION-STAGE-2"
@@ -33,7 +32,6 @@ iptables_save_conf_remove_pattern_list:
   - "-A DOCKER"
   - "docker_gwbridge"
   - "docker0"
-
 
 iptables_logged_dropped_traffic_rules:
   - chain: INPUT
@@ -73,7 +71,6 @@ iptables_logged_dropped_traffic_rules:
     log_prefix: "ip6tables_forward_drop: "
     ip_version: ipv6
 
-
 iptables_customs_chains:
   - chain: CUSTOM_CHAIN_IPV4
     table: filter
@@ -83,7 +80,6 @@ iptables_customs_chains:
     table: filter
     state: present
     ip_version: ipv6
-
 
 iptables_rules_loopback_traffic:
   - chain: INPUT
@@ -121,7 +117,6 @@ iptables_rules_loopback_traffic:
     jump: ACCEPT
     ip_version: ipv6
 
-
 iptables_rules_related_established_traffic:
   - chain: INPUT
     table: filter
@@ -154,7 +149,6 @@ iptables_rules_related_established_traffic:
     jump: ACCEPT
     ip_version: ipv6
 
-
 iptables_rules_traffic:
   - chain: INPUT
     table: filter
@@ -174,7 +168,6 @@ iptables_rules_traffic:
     destination_port: 22
     ctstate: NEW
     jump: ACCEPT
-
 
 iptables_chains_policy:
   # table filter
@@ -300,7 +293,6 @@ iptables_chains_policy:
   #   state: present
   #   policy: DROP
   #   ip_version: ipv6
-
 
 iptables_chains_policy_default:
   # table filter

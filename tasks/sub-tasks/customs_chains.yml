@@ -17,7 +17,6 @@
     - item.state == "absent"
     - item.ip_version == "ipv4"
 
-
 - name: create ipv6 customs chains
   shell: "ip6tables -t {{ item.table }} -N {{ item.chain }}"
   loop: "{{ iptables_customs_chains | flatten }}"

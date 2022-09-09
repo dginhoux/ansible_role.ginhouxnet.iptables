@@ -1,6 +1,4 @@
 ---
-
-
 galaxy_info:
   role_name: iptables
   description: install and configure iptables
@@ -25,6 +23,5 @@ galaxy_info:
         - "8"
   galaxy_tags:
     - iptables
-
 
 dependencies: []

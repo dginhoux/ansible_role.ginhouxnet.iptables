@@ -5,7 +5,7 @@ iptables_packages:
 
 iptables_services_on:
   - iptables
-  - ip6tables  
+  - ip6tables
 
 iptables_services_off:
   - firewalld

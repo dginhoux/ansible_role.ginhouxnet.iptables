@@ -1,5 +1,4 @@
 ---
-
 - name: configure chains logged dropped traffic rules
   iptables:
     chain: "{{ chains_policy.chain }}"

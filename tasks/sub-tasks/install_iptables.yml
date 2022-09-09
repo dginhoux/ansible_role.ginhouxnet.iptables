@@ -2,7 +2,7 @@
 - name: install required packages
   package:
     state: present
-    name: '{{ pkg }}'
+    name: "{{ pkg }}"
   loop: "{{ iptables_packages | flatten }}"
   loop_control:
     loop_var: pkg
@@ -26,9 +26,9 @@
 - name: disable and stop un-required services
   systemd:
     state: stopped
-    enabled: no
-    name: '{{ service }}'
-    daemon_reload: yes
+    enabled: false
+    name: "{{ service }}"
+    daemon_reload: true
   loop: "{{ iptables_services_off | flatten }}"
   loop_control:
     loop_var: service
@@ -37,9 +37,9 @@
 - name: enable and start required services
   systemd:
     state: started
-    enabled: yes
-    name: '{{ service }}'
-    daemon_reload: yes
+    enabled: true
+    name: "{{ service }}"
+    daemon_reload: true
   loop: "{{ iptables_services_on | flatten }}"
   loop_control:
     loop_var: service

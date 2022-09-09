@@ -1,5 +1,4 @@
 ---
-
 - iptables:
     chain: "{{ logged_dropped.chain }}"
     table: "{{ logged_dropped.table }}"

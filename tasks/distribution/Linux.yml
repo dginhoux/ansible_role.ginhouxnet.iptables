@@ -55,7 +55,6 @@
       when: iptables_save_conf | bool
   when: iptables_configure_action == "generate"
 
-
 - name: cleanup iptables
   include_tasks:
     file: tasks/sub-tasks/reset_iptables.yml
