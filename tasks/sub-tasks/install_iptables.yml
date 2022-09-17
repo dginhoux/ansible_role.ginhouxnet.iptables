@@ -1,6 +1,6 @@
 ---
 - name: install required packages
-  package:
+  ansible.builtin.package:
     state: present
     name: "{{ pkg }}"
   loop: "{{ iptables_packages | flatten }}"
@@ -8,7 +8,7 @@
     loop_var: pkg
 
 - name: create empty default saved ipv4 rules file
-  file:
+  ansible.builtin.file:
     path: "{{ iptables_conf_v4 }}"
     state: touch
     mode: 600
@@ -16,7 +16,7 @@
     group: root
 
 - name: create empty default saved ipv6 rules file
-  file:
+  ansible.builtin.file:
     path: "{{ iptables_conf_v6 }}"
     state: touch
     mode: 600
@@ -24,7 +24,7 @@
     group: root
 
 - name: disable and stop un-required services
-  systemd:
+  ansible.builtin.systemd:
     state: stopped
     enabled: false
     name: "{{ service }}"
@@ -35,7 +35,7 @@
   ignore_errors: true
 
 - name: enable and start required services
-  systemd:
+  ansible.builtin.systemd:
     state: started
     enabled: true
     name: "{{ service }}"

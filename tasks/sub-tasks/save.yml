@@ -1,16 +1,16 @@
 ---
 - name: save ipv4 persistent rules
-  shell:
+  ansible.builtin.shell:
     cmd: "{{ iptables_save_binary_ipv4 }} --file {{ iptables_conf_v4 }}"
   when: iptables_save_conf | bool
 
 - name: save ipv6 persistent rules
-  shell:
+  ansible.builtin.shell:
     cmd: "{{ iptables_save_binary_ipv6 }} --file {{ iptables_conf_v6 }}"
   when: iptables_save_conf | bool
 
 - name: remove unwanted rules in ipv4 persistent rules file
-  lineinfile:
+  ansible.builtin.lineinfile:
     path: "{{ iptables_conf_v4 }}"
     regexp: "{{ item }}"
     state: absent
@@ -22,7 +22,7 @@
     iptables_save_conf_remove_pattern_list is iterable
 
 - name: remove unwanted rules in ipv6 persistent rules file
-  lineinfile:
+  ansible.builtin.lineinfile:
     path: "{{ iptables_conf_v6 }}"
     regexp: "{{ item }}"
     state: absent
@@ -34,7 +34,7 @@
     iptables_save_conf_remove_pattern_list is iterable
 
 # - name: remove unwanted rules in ipv6 persistent rules file
-#   lineinfile:
+#   ansible.builtin.lineinfile:
 #     path: "{{ iptables_conf_v6 }}"
 #     regexp: "{{ item }}"
 #     state: absent

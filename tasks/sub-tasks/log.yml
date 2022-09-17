@@ -1,5 +1,5 @@
 ---
-- iptables:
+- ansible.builtin.iptables:
     chain: "{{ logged_dropped.chain }}"
     table: "{{ logged_dropped.table }}"
     state: "{{ logged_dropped.state }}"

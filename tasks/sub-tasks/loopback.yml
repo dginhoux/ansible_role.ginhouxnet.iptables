@@ -1,6 +1,6 @@
 ---
 - name: configure loopback interface traffic
-  iptables:
+  ansible.builtin.iptables:
     chain: "{{ rules_loopback.chain }}"
     table: "{{ rules_loopback.table }}"
     state: "{{ rules_loopback.state }}"

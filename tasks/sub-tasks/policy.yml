@@ -1,6 +1,6 @@
 ---
 - name: configure chains logged dropped traffic rules
-  iptables:
+  ansible.builtin.iptables:
     chain: "{{ chains_policy.chain }}"
     table: "{{ chains_policy.table }}"
     state: "{{ chains_policy.state }}"

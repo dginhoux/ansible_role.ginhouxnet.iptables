@@ -1,6 +1,6 @@
 ---
 - name: configure rules traffic
-  iptables:
+  ansible.builtin.iptables:
     chain: "{{ iptables_rules.chain }}"
     table: "{{ iptables_rules.table }}"
     state: "{{ iptables_rules.state | default ('present') }}"

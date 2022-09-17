@@ -1,6 +1,6 @@
 ---
 - name: configure related and established connections
-  iptables:
+  ansible.builtin.iptables:
     chain: "{{ rules_related_established.chain }}"
     table: "{{ rules_related_established.table }}"
     state: "{{ rules_related_established.state }}"
