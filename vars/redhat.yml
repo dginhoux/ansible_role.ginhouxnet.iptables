@@ -1,0 +1,19 @@
+---
+iptables_packages:
+  - iptables-services
+  - libnetfilter_conntrack
+
+iptables_services_on:
+  - iptables
+  - ip6tables
+
+iptables_services_off:
+  - firewalld
+
+iptables_conf_v4: /etc/sysconfig/iptables
+iptables_conf_v6: /etc/sysconfig/ip6tables
+
+iptables_binary_ipv4: /usr/sbin/iptables
+iptables_binary_ipv6: /usr/sbin/ip6tables
+iptables_save_binary_ipv4: /usr/sbin/iptables-save
+iptables_save_binary_ipv6: /usr/sbin/ip6tables-save
