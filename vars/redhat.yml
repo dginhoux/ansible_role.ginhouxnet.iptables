@@ -3,12 +3,16 @@ iptables_packages:
   - iptables-services
   - libnetfilter_conntrack
 
-iptables_services_on:
-  - iptables
-  - ip6tables
-
-iptables_services_off:
-  - firewalld
+iptables_services:
+  - name: iptables
+    state: started
+    enabled: true
+  - name: ip6tables
+    state: started
+    enabled: true
+  - name: firewalld
+    state: stopped
+    enabled: false
 
 iptables_conf_v4: /etc/sysconfig/iptables
 iptables_conf_v6: /etc/sysconfig/ip6tables

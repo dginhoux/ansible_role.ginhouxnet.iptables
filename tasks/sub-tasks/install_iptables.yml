@@ -23,24 +23,13 @@
     owner: root
     group: root
 
-- name: disable and stop un-required services
-  ansible.builtin.systemd:
-    state: stopped
-    enabled: false
-    name: "{{ service }}"
-    daemon_reload: true
-  loop: "{{ iptables_services_off | flatten }}"
-  loop_control:
-    loop_var: service
-  ignore_errors: true
-
-- name: enable and start required services
-  ansible.builtin.systemd:
-    state: started
-    enabled: true
-    name: "{{ service }}"
-    daemon_reload: true
-  loop: "{{ iptables_services_on | flatten }}"
+- name: manage services
+  ansible.builtin.service:
+    name: "{{ service.name }}"
+    state: "{{ service.state }}"
+    enabled: "{{ service.enabled }}"
+    # daemon_reload: true
+  loop: "{{ iptables_services | flatten }}"
   loop_control:
     loop_var: service
   ignore_errors: true

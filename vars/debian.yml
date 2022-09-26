@@ -3,10 +3,10 @@ iptables_packages:
   - iptables-persistent
   - libnetfilter-conntrack3
 
-iptables_services_on:
-  - netfilter-persistent
-
-iptables_services_off: []
+iptables_services:
+  - name: netfilter-persistent
+    state: started
+    enabled: true
 
 iptables_conf_v4: /etc/iptables/rules.v4
 iptables_conf_v6: /etc/iptables/rules.v6
