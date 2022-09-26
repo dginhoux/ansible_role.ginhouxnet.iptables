@@ -1,7 +1,7 @@
 ---
 galaxy_info:
   role_name: iptables
-  description: install and configure iptables
+  description: dginhoux.iptables
   author: Dany GINHOUX
   company: dginhoux
   license: MIT
