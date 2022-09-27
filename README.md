@@ -38,7 +38,7 @@ None.
 #### ANSIBLE GALAXY
 
 ```shell
-ansible-galaxy install dginhoux.git_repos
+ansible-galaxy install dginhoux.iptables
 ```
 #### GIT
 
