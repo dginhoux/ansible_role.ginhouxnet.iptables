@@ -1,7 +1,8 @@
 ---
 galaxy_info:
   role_name: iptables
-  description: dginhoux.iptables
+  description: |
+    This ansible role configure iptables.
   author: Dany GINHOUX
   company: dginhoux
   license: MIT
