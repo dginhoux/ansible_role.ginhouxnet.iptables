@@ -1,15 +1,15 @@
 ---
-- name: save ipv4 persistent rules
+- name: generate ipv4 persistent file
   ansible.builtin.shell:
     cmd: "{{ iptables_save_binary_ipv4 }} --file {{ iptables_conf_v4 }}"
   when: iptables_save_conf_action | bool
 
-- name: save ipv6 persistent rules
+- name: generate ipv6 persistent file
   ansible.builtin.shell:
     cmd: "{{ iptables_save_binary_ipv6 }} --file {{ iptables_conf_v6 }}"
   when: iptables_save_conf_action | bool
 
-- name: remove unwanted rules in ipv4 persistent rules file
+- name: remove unwanted patterns in ipv4 persistent file
   ansible.builtin.lineinfile:
     path: "{{ iptables_conf_v4 }}"
     regexp: "{{ item }}"
@@ -21,7 +21,7 @@
     and
     iptables_save_conf_remove_pattern_list is iterable
 
-- name: remove unwanted rules in ipv6 persistent rules file
+- name: remove unwanted patterns in ipv6 persistent file
   ansible.builtin.lineinfile:
     path: "{{ iptables_conf_v6 }}"
     regexp: "{{ item }}"
@@ -32,15 +32,3 @@
     iptables_save_conf_remove_pattern_list is defined
     and
     iptables_save_conf_remove_pattern_list is iterable
-
-# - name: remove unwanted rules in ipv6 persistent rules file
-#   ansible.builtin.lineinfile:
-#     path: "{{ iptables_conf_v6 }}"
-#     regexp: "{{ item }}"
-#     state: absent
-#   with_items:
-#     - DOCKER-INGRESS
-#     - DOCKER-ISOLATION-STAGE-1
-#     - DOCKER-ISOLATION-STAGE-2
-#     - DOCKER-USER
-#     - DOCKER

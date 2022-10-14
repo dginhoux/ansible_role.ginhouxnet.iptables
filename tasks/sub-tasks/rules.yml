@@ -1,5 +1,5 @@
 ---
-- name: configure rules traffic
+- name: set customs rules
   ansible.builtin.iptables:
     chain: "{{ iptables_rules.chain }}"
     table: "{{ iptables_rules.table }}"

@@ -1,5 +1,5 @@
 ---
-- name: configure related and established connections
+- name: add related and established rules
   ansible.builtin.iptables:
     chain: "{{ rules_related_established.chain }}"
     table: "{{ rules_related_established.table }}"

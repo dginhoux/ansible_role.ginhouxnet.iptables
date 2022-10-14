@@ -1,5 +1,5 @@
 ---
-- name: configure loopback interface traffic
+- name: add loopback rulesc
   ansible.builtin.iptables:
     chain: "{{ rules_loopback.chain }}"
     table: "{{ rules_loopback.table }}"
