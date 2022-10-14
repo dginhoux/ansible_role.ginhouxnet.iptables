@@ -54,8 +54,18 @@ iptables_customs_chains: []
 #### step 3
 ## https://docs.ansible.com/ansible/latest/collections/ansible/builtin/iptables_module.html
 iptables_customs_rules:
-  - { chain: INPUT, table: filter, state: present, comment: allow_icmp_ping, ip_version: ipv4, protocol: icmp, icmp_type: 8, jump: ACCEPT }
-  - { chain: INPUT, table: filter, state: present, comment: allow_ssh, ip_version: ipv4, protocol: tcp, destination_port: 22, ctstate: NEW, jump: ACCEPT, ptables_save_conf: true }
+  # ingress
+  - { chain: INPUT, table: filter, state: present, comment: allow_icmp_ping, ip_version: ipv4,
+      protocol: icmp, icmp_type: 8, jump: ACCEPT }
+  - { chain: INPUT, table: filter, state: present, comment: allow_ssh, ip_version: ipv4,
+      protocol: tcp, destination_port: 22, ctstate: NEW, jump: ACCEPT, ptables_save_conf: true }
+  # egress
+  - { chain: OUTPUT, table: filter, state: present, comment: allow_dns, ip_version: ipv4,
+      protocol: udp, destination_port: 53, ctstate: NEW,ESTABLISHED,RELATED, jump: ACCEPT }
+  - { chain: OUTPUT, table: filter, state: present, comment: allow_ntp, ip_version: ipv4,
+      protocol: udp, destination_port: 123, ctstate: NEW,ESTABLISHED,RELATED, jump: ACCEPT }
+  - { chain: OUTPUT, table: filter, state: present, comment: allow_http_hhtps, ip_version: ipv4,
+      protocol: tcp, destination_ports: [ 80, 443 ], ctstate: NEW,ESTABLISHED,RELATED, jump: ACCEPT }
 
 
 #### step 4
