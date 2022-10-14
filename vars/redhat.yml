@@ -1,7 +1,9 @@
 ---
 iptables_packages:
-  - iptables-services
-  - libnetfilter_conntrack
+  - name: iptables-services
+    state: present
+  - name: libnetfilter_conntrack
+    state: present
 
 iptables_services:
   - name: iptables

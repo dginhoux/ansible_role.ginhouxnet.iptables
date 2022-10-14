@@ -5,7 +5,8 @@ iptables_configure_action: generate
 # iptables_configure_action: cleanup
 
 
-iptables_install_packages: true
+#### step 0
+iptables_manage_packages: true
 
 
 #### step 1

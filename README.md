@@ -69,13 +69,12 @@ Defaults variables defined in `defaults/main.yml` :
 ```yaml
 ---
 ---
-
-
 iptables_configure_action: generate
 # iptables_configure_action: cleanup
 
 
-iptables_install_packages: true
+#### step 0
+iptables_manage_packages: true
 
 
 #### step 1
@@ -242,8 +241,10 @@ One of theses is loaded dynamically during role runtime using the `include_vars`
 
 ```yaml
 iptables_packages:
-  - iptables-persistent
-  - libnetfilter-conntrack3
+  - name: iptables-persistent
+    state: present
+  - name: libnetfilter-conntrack3
+    state: present
 
 iptables_services:
   - name: netfilter-persistent
@@ -263,8 +264,10 @@ iptables_save_binary_ipv6: /usr/sbin/ip6tables-save
 
 ```yaml
 iptables_packages:
-  - iptables-services
-  - libnetfilter_conntrack
+  - name: iptables-services
+    state: present
+  - name: libnetfilter_conntrack
+    state: present
 
 iptables_services:
   - name: iptables

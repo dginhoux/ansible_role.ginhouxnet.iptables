@@ -1,7 +1,9 @@
 ---
 iptables_packages:
-  - iptables-persistent
-  - libnetfilter-conntrack3
+  - name: iptables-persistent
+    state: present
+  - name: libnetfilter-conntrack3
+    state: present
 
 iptables_services:
   - name: netfilter-persistent

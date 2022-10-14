@@ -1,8 +1,8 @@
 ---
-- name: install required packages
+- name: manage packages
   ansible.builtin.package:
-    state: present
-    name: "{{ pkg }}"
+    state: "{{ pkg.state }}"
+    name: "{{ pkg.name }}"
   loop: "{{ iptables_packages | flatten }}"
   loop_control:
     loop_var: pkg

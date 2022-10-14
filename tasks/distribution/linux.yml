@@ -1,10 +1,10 @@
 ---
 - name: generate iptables
   block:
-    - name: include install tasks
+    - name: include packages tasks
       ansible.builtin.include_tasks:
-        file: tasks/sub-tasks/install_iptables.yml
-      when: iptables_install_packages | bool
+        file: tasks/sub-tasks/packages.yml
+      when: iptables_manage_packages | bool
 
     - name: include reset tasks
       ansible.builtin.include_tasks:
@@ -18,7 +18,7 @@
 
     - name: include customs rules tasks
       ansible.builtin.include_tasks:
-        file: tasks/sub-tasks/rules.yml
+        file: tasks/sub-tasks/customs_rules.yml
       when: iptables_customs_rules is iterable
 
     - name: include related established rules tasks
