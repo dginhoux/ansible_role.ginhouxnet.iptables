@@ -10,6 +10,6 @@
     jump: "{{ rules_loopback.jump }}"
     ctstate: NEW,ESTABLISHED,RELATED
     comment: allow_loopback_traffic
-  loop: "{{ iptables_rules_loopback_traffic | flatten }}"
+  loop: "{{ iptables_add_loopback_rules_list | flatten }}"
   loop_control:
     loop_var: rules_loopback

@@ -2,12 +2,12 @@
 - name: save ipv4 persistent rules
   ansible.builtin.shell:
     cmd: "{{ iptables_save_binary_ipv4 }} --file {{ iptables_conf_v4 }}"
-  when: iptables_save_conf | bool
+  when: iptables_save_conf_action | bool
 
 - name: save ipv6 persistent rules
   ansible.builtin.shell:
     cmd: "{{ iptables_save_binary_ipv6 }} --file {{ iptables_conf_v6 }}"
-  when: iptables_save_conf | bool
+  when: iptables_save_conf_action | bool
 
 - name: remove unwanted rules in ipv4 persistent rules file
   ansible.builtin.lineinfile:

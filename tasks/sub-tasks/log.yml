@@ -7,6 +7,6 @@
     log_level: "{{ logged_dropped.log_level }}"
     log_prefix: "{{ logged_dropped.log_prefix }}"
     comment: log_traffic
-  loop: "{{ iptables_logged_dropped_traffic_rules | flatten }}"
+  loop: "{{ iptables_add_log_for_dropped_traffic_list | flatten }}"
   loop_control:
     loop_var: logged_dropped

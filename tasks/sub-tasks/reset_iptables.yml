@@ -6,10 +6,10 @@
     state: "{{ chains_policy.state }}"
     ip_version: "{{ chains_policy.ip_version }}"
     policy: "{{ chains_policy.policy }}"
-  loop: "{{ iptables_chains_policy_default | flatten }}"
+  loop: "{{ iptables_reset_chain_policy_list | flatten }}"
   loop_control:
     loop_var: chains_policy
-  when: iptables_chains_policy_default is iterable
+  when: iptables_reset_chain_policy_list is iterable
 
 - name: reset chains rules
   ansible.builtin.iptables:
@@ -18,18 +18,18 @@
     state: "{{ chains_policy.state }}"
     ip_version: "{{ chains_policy.ip_version }}"
     flush: true
-  loop: "{{ iptables_chains_policy_default | flatten }}"
+  loop: "{{ iptables_reset_chain_policy_list | flatten }}"
   loop_control:
     loop_var: chains_policy
-  when: iptables_chains_policy_default is iterable
+  when: iptables_reset_chain_policy_list is iterable
 
 - name: reset ipv4 customs chains
   ansible.builtin.shell: "{{ iptables_binary_ipv4 }} -X"
-  when: iptables_reset_customs_chains_before_configure | bool
+  when: iptables_reset_chain_policy_customs_action | bool
 
 - name: reset ipv6 customs chains
   ansible.builtin.shell: "{{ iptables_binary_ipv6 }} -X"
-  when: iptables_reset_customs_chains_before_configure | bool
+  when: iptables_reset_chain_policy_customs_action | bool
 
 - name: reset ipv4 persistent rules
   ansible.builtin.copy:

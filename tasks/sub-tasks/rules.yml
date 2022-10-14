@@ -36,6 +36,6 @@
     to_destination: "{{ iptables_rules.to_destination | default (omit) }}"
     to_ports: "{{ iptables_rules.to_ports | default (omit) }}"
     to_source: "{{ iptables_rules.to_source | default (omit) }}"
-  loop: "{{ iptables_rules_traffic | flatten }}"
+  loop: "{{ iptables_customs_rules | flatten }}"
   loop_control:
     loop_var: iptables_rules

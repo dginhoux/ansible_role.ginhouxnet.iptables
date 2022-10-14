@@ -8,6 +8,6 @@
     ctstate: ESTABLISHED,RELATED
     jump: "{{ rules_related_established.jump }}"
     comment: allow_established_related
-  loop: "{{ iptables_rules_related_established_traffic | flatten }}"
+  loop: "{{ iptables_add_related_established_rules_list | flatten }}"
   loop_control:
     loop_var: rules_related_established
