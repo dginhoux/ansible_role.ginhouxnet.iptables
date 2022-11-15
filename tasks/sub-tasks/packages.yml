@@ -1,5 +1,5 @@
 ---
-- name: manage packages
+- name: Manage packages
   ansible.builtin.package:
     state: "{{ pkg.state }}"
     name: "{{ pkg.name }}"
@@ -7,23 +7,23 @@
   loop_control:
     loop_var: pkg
 
-- name: create empty default saved ipv4 rules file
+- name: Create empty default saved ipv4 rules file
   ansible.builtin.file:
     path: "{{ iptables_conf_v4 }}"
     state: touch
-    mode: 600
+    mode: "0600"
     owner: root
     group: root
 
-- name: create empty default saved ipv6 rules file
+- name: Create empty default saved ipv6 rules file
   ansible.builtin.file:
     path: "{{ iptables_conf_v6 }}"
     state: touch
-    mode: 600
+    mode: "0600"
     owner: root
     group: root
 
-- name: manage services
+- name: Manage services
   ansible.builtin.service:
     name: "{{ service.name }}"
     state: "{{ service.state }}"

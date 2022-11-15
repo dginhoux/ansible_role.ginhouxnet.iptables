@@ -1,5 +1,5 @@
 ---
-- name: add log for dropped traffic rules
+- name: Add log for dropped traffic rules
   ansible.builtin.iptables:
     chain: "{{ logged_dropped.chain }}"
     table: "{{ logged_dropped.table }}"

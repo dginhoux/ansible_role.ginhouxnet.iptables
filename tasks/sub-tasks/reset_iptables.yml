@@ -1,5 +1,5 @@
 ---
-- name: reset chains policy
+- name: Reset chains policy
   ansible.builtin.iptables:
     chain: "{{ chains_policy.chain }}"
     table: "{{ chains_policy.table }}"
@@ -11,7 +11,7 @@
     loop_var: chains_policy
   when: iptables_reset_chain_policy_list is iterable
 
-- name: reset chains rules
+- name: Reset chains rules
   ansible.builtin.iptables:
     chain: "{{ chains_policy.chain }}"
     table: "{{ chains_policy.table }}"
@@ -23,15 +23,17 @@
     loop_var: chains_policy
   when: iptables_reset_chain_policy_list is iterable
 
-- name: reset ipv4 customs chains
-  ansible.builtin.shell: "{{ iptables_binary_ipv4 }} -X"
+- name: Reset ipv4 customs chains
+  ansible.builtin.shell:
+    cmd: "{{ iptables_binary_ipv4 }} -X"
   when: iptables_reset_chain_policy_customs_action | bool
 
-- name: reset ipv6 customs chains
-  ansible.builtin.shell: "{{ iptables_binary_ipv6 }} -X"
+- name: Reset ipv6 customs chains
+  ansible.builtin.shell:
+    cmd: "{{ iptables_binary_ipv6 }} -X"
   when: iptables_reset_chain_policy_customs_action | bool
 
-- name: reset ipv4 persistent file
+- name: Reset ipv4 persistent file
   ansible.builtin.copy:
     content: ""
     dest: "{{ iptables_conf_v4 }}"
@@ -40,7 +42,7 @@
     mode: "0644"
   ignore_errors: true
 
-- name: reset ipv6 persistent file
+- name: Reset ipv6 persistent file
   ansible.builtin.copy:
     content: ""
     dest: "{{ iptables_conf_v6 }}"

@@ -1,61 +1,62 @@
 ---
-- name: generate iptables
+- name: Generate iptables
+  when: iptables_configure_action == "generate"
   block:
-    - name: include packages tasks
+    - name: Include packages tasks
       ansible.builtin.include_tasks:
         file: tasks/sub-tasks/packages.yml
       when: iptables_manage_packages | bool
 
-    - name: include reset tasks
+    - name: Include reset tasks
       ansible.builtin.include_tasks:
         file: tasks/sub-tasks/reset_iptables.yml
       when: iptables_reset_chain_policy_action | bool
 
-    - name: include customs chains tasks
+    - name: Include customs chains tasks
       ansible.builtin.include_tasks:
         file: tasks/sub-tasks/customs_chains.yml
       when: iptables_customs_chains is iterable
 
-    - name: include customs rules tasks
+    - name: Include customs rules tasks
       ansible.builtin.include_tasks:
         file: tasks/sub-tasks/customs_rules.yml
       when: iptables_customs_rules is iterable
 
-    - name: include related established rules tasks
+    - name: Include related established rules tasks
       ansible.builtin.include_tasks:
         file: tasks/sub-tasks/established.yml
       when:
         - iptables_add_related_established_rules_action | bool
         - iptables_add_related_established_rules_list is iterable
 
-    - name: include loopback tasks
+    - name: Include loopback tasks
       ansible.builtin.include_tasks:
         file: tasks/sub-tasks/loopback.yml
       when:
         - iptables_add_loopback_rules_action | bool
         - iptables_add_loopback_rules_list is iterable
 
-    - name: include log dropped traffic tasks
+    - name: Include log dropped traffic tasks
       ansible.builtin.include_tasks:
         file: tasks/sub-tasks/log.yml
       when:
         - iptables_add_log_for_dropped_traffic_action | bool
         - iptables_add_log_for_dropped_traffic_list is iterable
 
-    - name: include chains policy tasks
+    - name: Include chains policy tasks
       ansible.builtin.include_tasks:
         file: tasks/sub-tasks/policy.yml
       when:
         - iptables_set_chains_policy_list is iterable
         - iptables_set_chains_policy_action | bool
 
-    - name: include save tasks
+    - name: Include save tasks
       ansible.builtin.include_tasks:
         file: tasks/sub-tasks/save.yml
       when: iptables_save_conf_action | bool
-  when: iptables_configure_action == "generate"
 
-- name: include reset tasks
+
+- name: Include reset tasks
   ansible.builtin.include_tasks:
     file: tasks/sub-tasks/reset_iptables.yml
   when: iptables_configure_action == "cleanup"
