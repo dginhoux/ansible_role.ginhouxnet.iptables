@@ -1,5 +1,5 @@
 ---
-iptables_packages:
+iptables_pkgs:
   - name: iptables-persistent
     state: present
   - name: libnetfilter-conntrack3

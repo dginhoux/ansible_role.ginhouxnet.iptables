@@ -1,0 +1,11 @@
+---
+- name: Set chains policy
+  ansible.builtin.iptables:
+    chain: "{{ policy.chain }}"
+    table: "{{ policy.table }}"
+    state: "{{ policy.state }}"
+    ip_version: "{{ policy.ip_version }}"
+    policy: "{{ policy.policy }}"
+  loop: "{{ iptables_policies | flatten }}"
+  loop_control:
+    loop_var: policy

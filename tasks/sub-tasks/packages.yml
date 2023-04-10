@@ -3,7 +3,7 @@
   ansible.builtin.package:
     state: "{{ pkg.state }}"
     name: "{{ pkg.name }}"
-  loop: "{{ iptables_packages | flatten }}"
+  loop: "{{ iptables_pkgs | flatten }}"
   loop_control:
     loop_var: pkg
 

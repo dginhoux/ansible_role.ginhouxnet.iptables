@@ -5,14 +5,13 @@ iptables_configure_action: generate
 # iptables_configure_action: cleanup
 
 
-#### step 0 install package if necessary
-iptables_manage_packages: true
+#### step 1 install necessary packages
+iptables_packages: true
 
 
-#### step 1 reset chain policy
-iptables_reset_chain_policy_action: true
-iptables_reset_chain_policy_customs_action: true
-iptables_reset_chain_policy_list:
+#### step 2 reset everything
+iptables_reset: true
+iptables_reset_default_policy_list:
   # table filter ipv4
   - {chain: INPUT, table: filter, state: present, policy: ACCEPT, ip_version: ipv4}
   - {chain: OUTPUT, table: filter, state: present, policy: ACCEPT, ip_version: ipv4}
@@ -45,16 +44,9 @@ iptables_reset_chain_policy_list:
   - {chain: POSTROUTING, table: mangle, state: present, policy: ACCEPT, ip_version: ipv6}
 
 
-#### step 2 create customs chains
-iptables_customs_chains: []
-# iptables_customs_chains:
-#   - {chain: CUSTOM_CHAIN_IPV4, table: filter, state: present, ip_version: ipv4}
-#   - {chain: CUSTOM_CHAIN_IPV6, table: filter, state: present, ip_version: ipv6}
-
-
 #### step 3 create customs rules
 ## https://docs.ansible.com/ansible/latest/collections/ansible/builtin/iptables_module.html
-iptables_customs_rules:
+iptables_rules:
   # ingress
   - {chain: INPUT, table: filter, state: present, comment: allow_icmp_ping, ip_version: ipv4,
     protocol: icmp, icmp_type: 8, jump: ACCEPT}
@@ -69,42 +61,8 @@ iptables_customs_rules:
     protocol: tcp, destination_ports: [80,443], ctstate: "NEW,ESTABLISHED,RELATED", jump: ACCEPT}
 
 
-#### step 4 allow traffic with state ESTABLISHED,RELATED
-iptables_add_related_established_rules_action: true
-iptables_add_related_established_rules_list:
-  - {chain: INPUT, table: filter, state: present, jump: ACCEPT, ip_version: ipv4}
-  - {chain: INPUT, table: filter, state: present, jump: ACCEPT, ip_version: ipv6}
-  - {chain: OUTPUT, table: filter, state: present, jump: ACCEPT, ip_version: ipv4}
-  - {chain: OUTPUT, table: filter, state: present, jump: ACCEPT, ip_version: ipv6}
-  - {chain: FORWARD, table: filter, state: present, jump: ACCEPT, ip_version: ipv4}
-  - {chain: FORWARD, table: filter, state: present, jump: ACCEPT, ip_version: ipv6}
-
-
-#### step 5 allow loopback traffic
-iptables_add_loopback_rules_action: true
-iptables_add_loopback_rules_list:
-  - {chain: INPUT, table: filter, state: present, jump: ACCEPT, in_interface: lo, ip_version: ipv4}
-  - {chain: INPUT, table: filter, state: present, jump: ACCEPT, in_interface: lo, ip_version: ipv6}
-  - {chain: OUTPUT, table: filter, state: present, jump: ACCEPT, out_interface: lo, ip_version: ipv4}
-  - {chain: OUTPUT, table: filter, state: present, jump: ACCEPT, out_interface: lo, ip_version: ipv6}
-  - {chain: FORWARD, table: filter, state: present, jump: ACCEPT, ip_version: ipv4}
-  - {chain: FORWARD, table: filter, state: present, jump: ACCEPT, ip_version: ipv6}
-
-
-#### step 6 log dropped traffic
-iptables_add_log_for_dropped_traffic_action: true
-iptables_add_log_for_dropped_traffic_list:
-  - {chain: INPUT, table: filter, state: present, log_level: info, log_prefix: "iptables_input_drop: ", ip_version: ipv4}
-  - {chain: INPUT, table: filter, state: present, log_level: info, log_prefix: "ip6tables_input_drop: ", ip_version: ipv6}
-  - {chain: OUTPUT, table: filter, state: present, log_level: info, log_prefix: "iptables_output_drop: ", ip_version: ipv4}
-  - {chain: OUTPUT, table: filter, state: present, log_level: info, log_prefix: "ip6tables_output_drop: ", ip_version: ipv6}
-  - {chain: FORWARD, table: filter, state: present, log_level: info, log_prefix: "iptables_forward_drop: ", ip_version: ipv4}
-  - {chain: FORWARD, table: filter, state: present, log_level: info, log_prefix: "ip6tables_forward_drop: ", ip_version: ipv6}
-
-
-#### step 7 set chains policy
-iptables_set_chains_policy_action: true
-iptables_set_chains_policy_list:
+#### step 4 set policies default action 
+iptables_policies:
   # table filter ipv4
   - {chain: INPUT, table: filter, state: present, policy: DROP, ip_version: ipv4}
   - {chain: OUTPUT, table: filter, state: present, policy: DROP, ip_version: ipv4}
@@ -137,13 +95,9 @@ iptables_set_chains_policy_list:
   # - {chain: POSTROUTING, table: mangle, state: present, policy: DROP, ip_version: ipv6}
 
 
-#### step 8 save iptables persistent config
-iptables_save_conf_action: true
-
-
-#### step 9 if necessary, remove rules from persistent conf containing pattern
-iptables_save_conf_remove_pattern: true
-iptables_save_conf_remove_pattern_list:
+#### step 5 save iptables persistent config
+iptables_save: true
+iptables_conf_remove_pattern:
   - ":DOCKER-INGRESS"
   - ":DOCKER-ISOLATION-STAGE-1"
   - ":DOCKER-ISOLATION-STAGE-2"

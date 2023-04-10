@@ -1,5 +1,5 @@
 ---
-iptables_packages:
+iptables_pkgs:
   - name: iptables-services
     state: present
   - name: libnetfilter_conntrack
