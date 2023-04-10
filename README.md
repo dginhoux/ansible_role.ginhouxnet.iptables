@@ -4,10 +4,10 @@
 
 ## DESCRIPTION
 
-This ansible role configure iptables.<br />
+This ansible role configure iptables for both iv4 and ipv6 stacks.<br />
 It also save rules to ensure rules are applied at machine startup.
 <br /><br />
-A special feature is added on save function. It permet to remove line with content not necessary to be persistent, like docker rules (variable iptables_conf_remove_pattern), is removed with a lineinfile module.
+A special feature is added on save function. It used for remove line with content not necessary to be persistent, like docker rules (variable iptables_conf_remove_pattern), is removed with a lineinfile module.
 
 
 
@@ -28,7 +28,7 @@ This behaviour can be bypassed by settings the following variable `asserts_bypas
 
 #### ANSIBLE VERSION
 
-Ansible >= 2.12
+Ansible >= 2.13
 
 #### DEPENDENCIES
 
@@ -115,18 +115,28 @@ iptables_reset_default_policy_list:
 #### step 3 create customs rules
 ## https://docs.ansible.com/ansible/latest/collections/ansible/builtin/iptables_module.html
 iptables_rules:
-  # ingress
+  - { chain: INPUT, table: filter, state: present, ip_version: ipv4, jump: DROP, 
+    ctstate: INVALID, comment: "drop invalid connections" }
+  - { chain: INPUT, table: filter, state: present, ip_version: ipv4, jump: ACCEPT,
+    ctstate: ESTABLISHED,RELATED, comment: "allow established/related connections" }
+  - { chain: INPUT, table: filter, state: present, ip_version: ipv4, jump: ACCEPT,
+    in_interface: lo }
   - {chain: INPUT, table: filter, state: present, comment: allow_icmp_ping, ip_version: ipv4,
     protocol: icmp, icmp_type: 8, jump: ACCEPT}
   - {chain: INPUT, table: filter, state: present, comment: allow_ssh, ip_version: ipv4,
-    protocol: tcp, destination_port: 22, ctstate: NEW, jump: ACCEPT, ptables_save_conf: true}
-  # egress
+    protocol: tcp, destination_port: 22, jump: ACCEPT, ptables_save_conf: true}
+  - { chain: OUTPUT, table: filter, state: present, ip_version: ipv4, jump: DROP, 
+    ctstate: INVALID, comment: "drop invalid connections" }
+  - { chain: OUTPUT, table: filter, state: present, ip_version: ipv4, jump: ACCEPT,
+    ctstate: ESTABLISHED,RELATED, comment: "allow established/related connections" }
+  - { chain: OUTPUT, table: filter, state: present, ip_version: ipv4, jump: ACCEPT,
+    out_interface: lo }
   - {chain: OUTPUT, table: filter, state: present, comment: allow_dns, ip_version: ipv4,
-    protocol: udp, destination_port: 53, ctstate: "NEW,ESTABLISHED,RELATED", jump: ACCEPT}
+    protocol: udp, destination_port: 53, jump: ACCEPT}
   - {chain: OUTPUT, table: filter, state: present, comment: allow_ntp, ip_version: ipv4,
-    protocol: udp, destination_port: 123, ctstate: "NEW,ESTABLISHED,RELATED", jump: ACCEPT}
+    protocol: udp, destination_port: 123, jump: ACCEPT}
   - {chain: OUTPUT, table: filter, state: present, comment: allow_http_hhtps, ip_version: ipv4,
-    protocol: tcp, destination_ports: [80,443], ctstate: "NEW,ESTABLISHED,RELATED", jump: ACCEPT}
+    protocol: tcp, destination_ports: [80,443], jump: ACCEPT}
 
 
 #### step 4 set policies default action 
