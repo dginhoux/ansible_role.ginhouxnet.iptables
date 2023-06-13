@@ -1,35 +1,49 @@
 ---
 - name: Include packages tasks
+  tags:
+    - install
   when: iptables_packages | bool
   ansible.builtin.include_tasks:
     file: tasks/sub-tasks/packages.yml
 
 
 - name: Generate iptables
+  tags:
+    - generate
   when: iptables_configure_action == "generate"
   block:
     - name: Include reset tasks
+      tags:
+        - reset
       when: iptables_reset | bool
       ansible.builtin.include_tasks:
         file: tasks/sub-tasks/reset.yml
 
     - name: Include rules tasks
+      tags:
+        - rules
       when: iptables_rules is iterable
       ansible.builtin.include_tasks:
         file: tasks/sub-tasks/rules.yml
 
     - name: Include policies tasks
+      tags:
+        - policies
       when: iptables_policies is iterable
       ansible.builtin.include_tasks:
         file: tasks/sub-tasks/policies.yml
 
     - name: Include save tasks
+      tags:
+        - save
       when: iptables_save | bool
       ansible.builtin.include_tasks:
         file: tasks/sub-tasks/save.yml
 
 
 - name: Include reset tasks
+  tags:
+    - reset
   when: iptables_configure_action == "cleanup"
   ansible.builtin.include_tasks:
     file: tasks/sub-tasks/reset.yml
