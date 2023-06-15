@@ -12,19 +12,19 @@
   when: iptables_reset_default_policy_list is iterable
 
 - name: Flush ipv4 rules
-  ansible.builtin.shell:
+  ansible.builtin.command:
     cmd: "{{ iptables_binary_ipv4 }} -F"
 
 - name: Flush ipv6 rules
-  ansible.builtin.shell:
+  ansible.builtin.command:
     cmd: "{{ iptables_binary_ipv6 }} -F"
 
 - name: Reset ipv4 customs chains
-  ansible.builtin.shell:
+  ansible.builtin.command:
     cmd: "{{ iptables_binary_ipv4 }} -X"
 
 - name: Reset ipv6 customs chains
-  ansible.builtin.shell:
+  ansible.builtin.command:
     cmd: "{{ iptables_binary_ipv6 }} -X"
 
 - name: Purge ipv4 persistent file

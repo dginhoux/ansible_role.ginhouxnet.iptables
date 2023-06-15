@@ -1,10 +1,10 @@
 ---
 - name: Generate ipv4 persistent file
-  ansible.builtin.shell:
+  ansible.builtin.command:
     cmd: "{{ iptables_save_binary_ipv4 }} --file {{ iptables_conf_v4 }}"
 
 - name: Generate ipv6 persistent file
-  ansible.builtin.shell:
+  ansible.builtin.command:
     cmd: "{{ iptables_save_binary_ipv6 }} --file {{ iptables_conf_v6 }}"
 
 - name: Remove unwanted patterns in ipv4 persistent file
