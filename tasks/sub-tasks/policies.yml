@@ -9,3 +9,4 @@
   loop: "{{ iptables_policies | flatten }}"
   loop_control:
     loop_var: policy
+    label: "ip: {{ policy.ip_version }}, table: {{ policy.table }}, chain: {{ policy.chain }}, policy: {{ policy.policy }}"

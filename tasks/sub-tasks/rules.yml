@@ -41,3 +41,5 @@
   loop: "{{ iptables_rules | flatten }}"
   loop_control:
     loop_var: rule
+    # label: "ip: {{ rule.ip_version }}, table: {{ rule.table }}, chain: {{ rule.chain }}, policy: {{ rule.policy }}"
+

@@ -9,6 +9,7 @@
   loop: "{{ iptables_reset_default_policy_list | flatten }}"
   loop_control:
     loop_var: chains_policy
+    label: "ip: {{ chains_policy.ip_version }}, table: {{ chains_policy.table }}, chain: {{ chains_policy.chain }}, policy: {{ chains_policy.policy }}"
   when: iptables_reset_default_policy_list is iterable
 
 - name: Flush ipv4 rules
