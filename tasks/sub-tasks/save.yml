@@ -1,28 +1,32 @@
 ---
 - name: Generate ipv4 persistent file
+  become: true
   ansible.builtin.command:
     cmd: "{{ iptables_save_binary_ipv4 }} --file {{ iptables_conf_v4 }}"
 
 - name: Generate ipv6 persistent file
+  become: true
   ansible.builtin.command:
     cmd: "{{ iptables_save_binary_ipv6 }} --file {{ iptables_conf_v6 }}"
 
 - name: Remove unwanted patterns in ipv4 persistent file
+  become: true
+  with_items: "{{ iptables_conf_remove_pattern }}"
+  when:
+    - iptables_conf_remove_pattern is defined
+    - iptables_conf_remove_pattern is iterable
   ansible.builtin.lineinfile:
     path: "{{ iptables_conf_v4 }}"
     regexp: "{{ item }}"
     state: absent
-  with_items: "{{ iptables_conf_remove_pattern }}"
-  when: iptables_conf_remove_pattern is defined
-    and
-    iptables_conf_remove_pattern is iterable
 
 - name: Remove unwanted patterns in ipv6 persistent file
+  become: true
+  with_items: "{{ iptables_conf_remove_pattern }}"
+  when:
+    - iptables_conf_remove_pattern is defined
+    - iptables_conf_remove_pattern is iterable
   ansible.builtin.lineinfile:
     path: "{{ iptables_conf_v6 }}"
     regexp: "{{ item }}"
     state: absent
-  with_items: "{{ iptables_conf_remove_pattern }}"
-  when: iptables_conf_remove_pattern is defined
-    and
-    iptables_conf_remove_pattern is iterable

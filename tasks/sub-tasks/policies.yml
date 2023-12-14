@@ -1,5 +1,6 @@
 ---
 - name: Set chains policy
+  become: true
   ansible.builtin.iptables:
     chain: "{{ policy.chain }}"
     table: "{{ policy.table }}"

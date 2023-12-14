@@ -1,5 +1,10 @@
 ---
 - name: Set rules
+  become: true
+  loop: "{{ iptables_rules | flatten }}"
+  loop_control:
+    loop_var: rule
+    # label: "ip: {{ rule.ip_version }}, table: {{ rule.table }}, chain: {{ rule.chain }}, policy: {{ rule.policy }}"
   ansible.builtin.iptables:
     chain: "{{ rule.chain }}"
     table: "{{ rule.table }}"
@@ -38,8 +43,3 @@
     to_ports: "{{ rule.to_ports | default(omit) }}"
     to_source: "{{ rule.to_source | default(omit) }}"
     wait: "{{ rule.wait | default(omit) }}"
-  loop: "{{ iptables_rules | flatten }}"
-  loop_control:
-    loop_var: rule
-    # label: "ip: {{ rule.ip_version }}, table: {{ rule.table }}, chain: {{ rule.chain }}, policy: {{ rule.policy }}"
-
