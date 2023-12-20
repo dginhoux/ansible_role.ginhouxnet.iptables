@@ -52,9 +52,10 @@ git clone https://github.com/dginhoux/ansible_role.iptables dginhoux.iptables
 #### EXAMPLE PLAYBOOK
 
 ```yaml
-- hosts: all
+- name: Playbook
+  hosts: all
   roles:
-    - name: start role dginhoux.iptables
+    - name: Start role dginhoux.iptables
       ansible.builtin.include_role:
         name: dginhoux.iptables
 ```
@@ -64,12 +65,11 @@ git clone https://github.com/dginhoux/ansible_role.iptables dginhoux.iptables
 
 #### DEFAULT VARIABLES
 
-Defaults variables defined in `defaults/main.yml` : 
+Defaults variables defined in `defaults/main.yml`
+
+#### EXAMPLES VARIABLES
 
 ```yaml
----
----
-
 #### step 1 install necessary packages
 iptables_packages: true
 
